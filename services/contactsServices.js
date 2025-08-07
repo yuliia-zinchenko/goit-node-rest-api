@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import { nanoid } from "nanoid";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -18,13 +17,13 @@ export const listContacts = async () => {
 
 export const getContactById = async (contactId) => {
   const contacts = await listContacts();
-  const contact = contacts.find((item) => item.id === contactId);
+  const contact = contacts.find((item) => item._id === contactId);
   return contact || null;
 };
 
 export const removeContact = async (contactId) => {
   const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === contactId);
+  const index = contacts.findIndex((item) => item._id === contactId);
   if (index === -1) {
     return null;
   }
@@ -36,7 +35,6 @@ export const removeContact = async (contactId) => {
 export const addContact = async ({ name, email, phone }) => {
   const contacts = await listContacts();
   const newContact = {
-    id: nanoid(),
     name,
     email,
     phone,
@@ -48,7 +46,7 @@ export const addContact = async ({ name, email, phone }) => {
 
 export const updateById = async (contactId, data) => {
   const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === contactId);
+  const index = contacts.findIndex((item) => item._id === contactId);
   if (index === -1) {
     return null;
   }
