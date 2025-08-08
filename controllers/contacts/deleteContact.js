@@ -1,5 +1,5 @@
-import { Contact } from "../models/contact.js";
-import { HttpError } from "../helpers/index.js";
+import { Contact } from "../../models/contact.js";
+import { HttpError } from "../../helpers/index.js";
 
 export const deleteContact = async (req, res) => {
   const { id } = req.params;

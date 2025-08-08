@@ -13,18 +13,21 @@ const contactSchema = new Schema(
     },
     phone: {
       type: String,
-      unique: true,
     },
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
 );
 
 contactSchema.post("save", handleSaveErrors);
-export const Contact = model("contact", contactSchema);
 
 const createContactSchema = Joi.object({
   name: Joi.string().required(),
@@ -41,3 +44,5 @@ export const schemas = {
   createContactSchema,
   updateFavouriteSchema,
 };
+
+export const Contact = model("contact", contactSchema);
