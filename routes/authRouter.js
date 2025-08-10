@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticate, validateBody } from "../middlewares/index.js";
+import { authenticate, validateBody, upload } from "../middlewares/index.js";
 import { ctrlWrapper } from "../helpers/index.js";
 import {
   register,
@@ -7,6 +7,9 @@ import {
   getCurrent,
   logout,
   updateSubscription,
+  updateAvatar,
+  verify,
+  resendVerify,
 } from "../controllers/auth/index.js";
 import { schemas } from "../models/user.js";
 
@@ -16,6 +19,14 @@ authRouter.post(
   "/register",
   validateBody(schemas.registerSchema),
   ctrlWrapper(register)
+);
+
+authRouter.get("/verify/:verificationToken", ctrlWrapper(verify));
+
+authRouter.post(
+  "/verify",
+  validateBody(schemas.verifyEmailSchema),
+  ctrlWrapper(resendVerify)
 );
 
 authRouter.post(
@@ -33,6 +44,13 @@ authRouter.patch(
   authenticate,
   validateBody(schemas.subscriptionSchema),
   ctrlWrapper(updateSubscription)
+);
+
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(updateAvatar)
 );
 
 export default authRouter;
