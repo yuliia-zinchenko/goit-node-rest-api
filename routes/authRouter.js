@@ -8,6 +8,8 @@ import {
   logout,
   updateSubscription,
   updateAvatar,
+  verify,
+  resendVerify,
 } from "../controllers/auth/index.js";
 import { schemas } from "../models/user.js";
 
@@ -17,6 +19,14 @@ authRouter.post(
   "/register",
   validateBody(schemas.registerSchema),
   ctrlWrapper(register)
+);
+
+authRouter.get("/verify/:verificationToken", ctrlWrapper(verify));
+
+authRouter.post(
+  "/verify",
+  validateBody(schemas.verifyEmailSchema),
+  ctrlWrapper(resendVerify)
 );
 
 authRouter.post(
